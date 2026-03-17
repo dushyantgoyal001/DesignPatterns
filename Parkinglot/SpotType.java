@@ -1,5 +1,5 @@
 package Parkinglot;
 
-public enum SpotType {
+public enum  SpotType {
         COMPACT, LARGE, MOTORCYCLE
 }
