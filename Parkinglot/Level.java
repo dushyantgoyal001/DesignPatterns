@@ -1,7 +1,12 @@
 package Parkinglot;
 
 public class Level {
-    public void someMethod() {
-        System.out.println("Called from Level");
+    private int floor;
+    private list<ParkingSpot> parkingSpots;
+    public getAvailableSpots() {
+        return list<ParkingSpot>;
+    }
+    public parkVehicle(Vehicle vehicle) {
+        return ParkingSpot;
     }
 }

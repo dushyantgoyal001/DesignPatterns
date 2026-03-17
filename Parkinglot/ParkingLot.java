@@ -1,8 +1,17 @@
 package Parkinglot;
 
 public class ParkingLot {
-    public static void main(String[] args) {
-        Level levels = new Level();  // Create instance
-        levels.someMethod();         // Call the method
+    list<Level> levels;
+    public addLevel(Level level) {
+        levels.add(level);
+    }
+    public findSpot(VehicleType vechicleType) {
+        return ParkingSpot;
+    }
+    public parkVehicle(Vehicle vehicle){
+        return Ticket;
+    }
+    public freeSpot(Ticket ticket) {
+
     }
 }
