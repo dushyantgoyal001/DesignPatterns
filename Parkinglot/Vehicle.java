@@ -8,4 +8,8 @@ public abstract class  Vehicle {
         this.licensePlate = licensePlate;
         this.vehicleType = vehicleType.name();
     }
+
+    public VehicleType getVehicleType() {
+        return VehicleType.valueOf(vehicleType);
+    }
 }
