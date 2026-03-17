@@ -2,14 +2,14 @@ package Parkinglot;
 
 public class ParkingSpot {
     private int spotId;
-    private string spotType;
+    private String spotType;
     private boolean isAvailable;
-    private vehicle parkedVehicle;
+    private Vehicle parkedVehicle;
     public isavailable() {
         return isAvailable;
     }
-    public canfitVehicle(Vehicle vehicle) {
-        return boolean;
+    public boolean canfitVehicle(Vehicle vehicle) {
+        return true;
     }
     public assignVehicle(Vehicle vehicle) {
         this.parkedVehicle = vehicle;

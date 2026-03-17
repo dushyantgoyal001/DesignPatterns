@@ -1,6 +1,6 @@
 package Parkinglot;
 
 public class Vehicle {
-    private string licensePlate;
-    private string vehicleType;
+    private String licensePlate;
+    private String vehicleType;
 }

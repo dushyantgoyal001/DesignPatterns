@@ -1,7 +1,10 @@
 package Parkinglot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingLot {
-    list<Level> levels;
+    private List<Level> levels = new ArrayList<>();
     public addLevel(Level level) {
         levels.add(level);
     }

@@ -2,7 +2,7 @@ package Parkinglot;
 
 public class Ticket {
     private int ticketId;
-    private vehicle parkedVehicle;
-    private spot ParkingSpot;
+    private Vehicle parkedVehicle;
+    private ParkingSpot parkingSpot;
     private long entryTime;
 }

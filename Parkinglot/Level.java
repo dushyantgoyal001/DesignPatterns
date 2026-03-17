@@ -2,9 +2,9 @@ package Parkinglot;
 
 public class Level {
     private int floor;
-    private list<ParkingSpot> parkingSpots;
+    private List<ParkingSpot> parkingSpots;
     public getAvailableSpots() {
-        return list<ParkingSpot>;
+        return List<ParkingSpot>;
     }
     public parkVehicle(Vehicle vehicle) {
         return ParkingSpot;
