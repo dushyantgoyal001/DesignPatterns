@@ -14,6 +14,11 @@ public class ParkingLot {
     public Ticket parkVehicle(Vehicle vehicle) {
         return null;
     }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
     public void freeSpot(Ticket ticket) {
 
     }

@@ -12,4 +12,24 @@ public class Level {
     public ParkingSpot parkVehicle(Vehicle vehicle) {
         return null;
     }
+
+    public Level(int floor) {
+        this.floor = floor;
+    }
+
+    public List<ParkingSpot> getParkingSpots() {
+        return parkingSpots;
+    }
+
+    public void setParkingSpots(List<ParkingSpot> parkingSpots) {
+        this.parkingSpots = parkingSpots;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
 }
