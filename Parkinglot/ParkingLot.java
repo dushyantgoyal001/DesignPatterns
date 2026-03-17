@@ -5,16 +5,16 @@ import java.util.List;
 
 public class ParkingLot {
     private List<Level> levels = new ArrayList<>();
-    public addLevel(Level level) {
+    public void addLevel(Level level) {
         levels.add(level);
     }
-    public findSpot(VehicleType vechicleType) {
-        return ParkingSpot;
+    public ParkingSpot findSpot(VehicleType vehicleType) {
+        return null;
     }
-    public parkVehicle(Vehicle vehicle){
-        return Ticket;
+    public Ticket parkVehicle(Vehicle vehicle) {
+        return null;
     }
-    public freeSpot(Ticket ticket) {
+    public void freeSpot(Ticket ticket) {
 
     }
 }

@@ -1,7 +1,5 @@
 package Parkinglot;
 
-public class VehicleType {
-    enum Type {
+public enum VehicleType {
         CAR, TRUCK, MOTORCYCLE
-    }
 }

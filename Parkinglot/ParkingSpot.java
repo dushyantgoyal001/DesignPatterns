@@ -5,17 +5,17 @@ public class ParkingSpot {
     private String spotType;
     private boolean isAvailable;
     private Vehicle parkedVehicle;
-    public isavailable() {
+    public boolean isAvailable() {
         return isAvailable;
     }
     public boolean canfitVehicle(Vehicle vehicle) {
         return true;
     }
-    public assignVehicle(Vehicle vehicle) {
+    public void assignVehicle(Vehicle vehicle) {
         this.parkedVehicle = vehicle;
         this.isAvailable = false;
     }
-    public removeVehicle() {
+    public void removeVehicle() {
         this.parkedVehicle = null;
         this.isAvailable = true;
     }

@@ -1,12 +1,15 @@
 package Parkinglot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Level {
     private int floor;
-    private List<ParkingSpot> parkingSpots;
-    public getAvailableSpots() {
-        return List<ParkingSpot>;
+    private List<ParkingSpot> parkingSpots = new ArrayList<>();
+    public List<ParkingSpot> getAvailableSpots() {
+        return parkingSpots;
     }
-    public parkVehicle(Vehicle vehicle) {
-        return ParkingSpot;
+    public ParkingSpot parkVehicle(Vehicle vehicle) {
+        return null;
     }
 }
