@@ -33,3 +33,38 @@
 You’ll see both themes: Mac-style and Windows-style button + checkbox, with the client unchanged — only the factory passed in changes.
 
 **In short:** Abstract Factory gives you a “theme factory” that produces a whole family of related objects (e.g. button + checkbox). You pass one factory (Mac or Windows); the client stays the same and gets a consistent look. Adding a new theme = new factory + new product classes; the `Application` code stays untouched.
+
+## DatabaseConnection — Singleton Pattern
+
+**Singleton** ensures a class has only one instance and provides a global point of access to it. Useful for shared resources like a database connection, config, or thread pool — you want exactly one instance reused everywhere.
+
+Singleton is about **how many instances (objects)** of the class exist in the whole application:
+
+- Exactly one instance of that class ever exists.
+- Everyone shares that same object (e.g. one `DatabaseConnection`).
+- You get it via something like `getInstance()`; you don’t use `new` from outside.
+
+So: **one object** of that class, not “one method” or “one use.”
+
+**How we implemented it:**
+
+| Part | In this project |
+|------|----------------|
+| **Single instance** | `private static volatile DatabaseConnection instance` — the one shared instance. |
+| **No direct construction** | `private DatabaseConnection()` — only the class itself can create the object; others must use `getInstance()`. |
+| **Global access** | `public static DatabaseConnection getInstance()` — returns the same instance every time. |
+| **Thread safety** | *Double-checked locking*: check `instance == null` outside the lock (fast path), then `synchronized (DatabaseConnection.class)` and check again before creating. Only the first call creates; later calls avoid the lock when instance exists. |
+| **Reflection guard** | In the constructor, `if (instance != null) throw ...` — prevents creating a second instance via reflection. |
+
+**Why `volatile`?**
+
+In double-checked locking, we use `volatile` on the `instance` field for two reasons:
+
+1. **Visibility** — When one thread creates the instance inside the synchronized block, other threads might still see a cached “null” in their CPU cache. `volatile` forces reads and writes of `instance` to go to main memory, so once the first thread sets `instance`, every other thread sees the updated value.
+2. **Ordering** — Without `volatile`, the JVM can reorder instructions: the reference might be assigned to `instance` before the object is fully constructed. Another thread could then see a non-null `instance` that isn’t fully initialized. `volatile` prevents this reordering so the object is fully built before it becomes visible.
+
+So: **`volatile` makes the singleton instance safely visible across threads and ensures it is not seen until construction is complete.**
+
+You’ll see one “Database Connection Created” and “Are both connections the same instance? true”.
+
+**In short:** Singleton = one instance, private constructor, `getInstance()` for access. We use double-checked locking for thread-safe lazy creation and `volatile` so that instance is safely visible and fully initialized when other threads read it.

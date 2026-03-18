@@ -1,7 +1,7 @@
 package DatabaseConnection;
 
 public class DatabaseConnection {
-    private static DatabaseConnection instance;
+    private static volatile DatabaseConnection instance;
     private DatabaseConnection() {
         if(instance != null) {
             throw new RuntimeException("Use getInstance() method to create");
@@ -9,7 +9,7 @@ public class DatabaseConnection {
         System.out.println("Database Connection Created");
     }
 
-    private static DatabaseConnection getInstance() {
+    public static DatabaseConnection getInstance() {
         if(instance == null) {
            synchronized (DatabaseConnection.class) {
                 if(instance == null) {
@@ -19,7 +19,7 @@ public class DatabaseConnection {
         }
         return instance;
     }
-    private void executeQuery(String query) {
+    public void executeQuery(String query) {
         System.out.println("Executing query: " + query);
     }
 
