@@ -20,16 +20,6 @@
 
 **Abstract Factory** provides an interface for creating families of related objects (e.g. a whole UI theme) without specifying their concrete classes. Instead of one factory that creates one type of object (like Factory), you have one factory *per theme* that creates *all* the related widgets for that theme. The client code depends only on the abstract factory and product interfaces, so you can swap entire families (Mac vs Windows) without changing the client.
 
-**How we implemented it:**
-
-| Role | In this project |
-|------|-----------------|
-| **Abstract Factory** | `GUIFactory` — interface with `createButton()` and `createCheckBox()`. |
-| **Concrete Factories** | `MacFactory`, `WindowsFactory` — each creates a full set of theme-consistent widgets. |
-| **Abstract Products** | `Button`, `CheckBox` — interfaces for the widget types. |
-| **Concrete Products** | `MacButton`, `MacCheckBox`, `WindowButton`, `WindowCheckBox` — theme-specific implementations. |
-| **Client** | `Application` — takes a `GUIFactory` in its constructor and uses it to create button + checkbox; it never refers to Mac or Windows classes. |
-
 You’ll see both themes: Mac-style and Windows-style button + checkbox, with the client unchanged — only the factory passed in changes.
 
 **In short:** Abstract Factory gives you a “theme factory” that produces a whole family of related objects (e.g. button + checkbox). You pass one factory (Mac or Windows); the client stays the same and gets a consistent look. Adding a new theme = new factory + new product classes; the `Application` code stays untouched.
@@ -45,16 +35,6 @@ Singleton is about **how many instances (objects)** of the class exist in the wh
 - You get it via something like `getInstance()`; you don’t use `new` from outside.
 
 So: **one object** of that class, not “one method” or “one use.”
-
-**How we implemented it:**
-
-| Part | In this project |
-|------|----------------|
-| **Single instance** | `private static volatile DatabaseConnection instance` — the one shared instance. |
-| **No direct construction** | `private DatabaseConnection()` — only the class itself can create the object; others must use `getInstance()`. |
-| **Global access** | `public static DatabaseConnection getInstance()` — returns the same instance every time. |
-| **Thread safety** | *Double-checked locking*: check `instance == null` outside the lock (fast path), then `synchronized (DatabaseConnection.class)` and check again before creating. Only the first call creates; later calls avoid the lock when instance exists. |
-| **Reflection guard** | In the constructor, `if (instance != null) throw ...` — prevents creating a second instance via reflection. |
 
 **Why `volatile`?**
 
