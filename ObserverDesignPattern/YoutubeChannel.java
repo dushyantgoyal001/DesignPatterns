@@ -1,9 +1,10 @@
 package ObserverDesignPattern;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YoutubeChannel implements Subject {
-    List<Observer> observers;
+    private final List<Observer> observers = new ArrayList<>();
 
     @Override
     public void registerObserver(Observer observer) {

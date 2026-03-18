@@ -41,6 +41,9 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 9 | **Memento** | Save/restore state (undo, snapshots). |
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
+
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+
 ---
 
 ## Java: Packages, Directories & Classes (Simple Guide)
@@ -91,3 +94,11 @@ So: **`volatile` makes the singleton instance safely visible across threads and 
 You’ll see one “Database Connection Created” and “Are both connections the same instance? true”.
 
 **In short:** Singleton = one instance, private constructor, `getInstance()` for access. We use double-checked locking for thread-safe lazy creation and `volatile` so that instance is safely visible and fully initialized when other threads read it.
+
+## ObserverDesignPattern — Observer Pattern
+
+**Observer pattern** defines a one-to-many dependency: when the subject (e.g. a YouTube channel) changes state, all registered observers (subscribers) are notified automatically. The subject holds a list of observers and calls a notification method on each when something happens; observers implement a common interface (e.g. `notified(message)`). The subject does not need to know the concrete types of observers — only that they implement the `Observer` interface.
+
+In this repo, `YoutubeChannel` implements `Subject` (register, remove, notify); `Subscriber` implements `Observer` (notified). The client registers subscribers with the channel and calls `notifyObservers("New video uploaded!")`; each subscriber receives the message. Adding a new kind of observer is just a new class implementing `Observer` and registering with the subject.
+
+**In short:** One subject, many observers. Subject maintains a list of observers and notifies them when state changes. Observers implement a single interface (e.g. `notified(message)`). Keeps the subject decoupled from who is listening — event-driven and pub/sub style.

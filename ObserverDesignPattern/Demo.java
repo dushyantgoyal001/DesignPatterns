@@ -7,6 +7,7 @@ public class Demo {
         Subscriber subscriber2 = new Subscriber("Bob");
         newsPublisher.registerObserver(subscriber1);
         newsPublisher.registerObserver(subscriber2);
+        newsPublisher.registerObserver(new Subscriber("Charlie"));
         newsPublisher.notifyObservers("New video uploaded!");
     }
 }
