@@ -1,5 +1,48 @@
 # DesignPatterns
 
+## Design Patterns — List by Priority (SDE2)
+
+All major design patterns, ordered by how often they matter in SDE2 work (codebases, reviews, system design, interviews).
+
+### Creational (how objects are created)
+
+| Priority | Pattern | Why it matters for SDE2 |
+|----------|---------|-------------------------|
+| 1 | **Singleton** | One shared instance (DB pool, config, logger). Very common; know thread-safe variants. |
+| 2 | **Factory Method / Simple Factory** | Centralized object creation by type; reduces `new` spread and simplifies adding new types. |
+| 3 | **Builder** | Fluent APIs, optional params, immutable DTOs. Used in SDKs, config, and APIs. |
+| 4 | **Abstract Factory** | Families of related objects (e.g. UI themes, platform abstractions). |
+| 5 | **Prototype** | Clone existing instances instead of re-building. Less common but useful for caches/templates. |
+
+### Structural (how objects are composed)
+
+| Priority | Pattern | Why it matters for SDE2 |
+|----------|---------|-------------------------|
+| 1 | **Adapter** | Integrate legacy or third-party APIs without changing your core code. |
+| 2 | **Decorator** | Add behavior without subclassing (streams, middleware, wrappers). |
+| 3 | **Facade** | Simple API over a complex subsystem. Very common in services and SDKs. |
+| 4 | **Proxy** | Lazy loading, access control, logging, remoting. |
+| 5 | **Composite** | Tree structures (UI, file systems, expressions). |
+| 6 | **Bridge** | Decouple abstraction from implementation. |
+| 7 | **Flyweight** | Share state to save memory (e.g. repeated symbols, pooling). |
+
+### Behavioral (how objects interact and assign responsibilities)
+
+| Priority | Pattern | Why it matters for SDE2 |
+|----------|---------|-------------------------|
+| 1 | **Strategy** | Swap algorithms at runtime; keeps code open/closed. Very common. |
+| 2 | **Observer** | Event-driven systems, pub/sub, reactive flows. |
+| 3 | **Template Method** | Skeleton algorithm with pluggable steps (frameworks, pipelines). |
+| 4 | **Command** | Encapsulate actions (undo/redo, queues, async jobs). |
+| 5 | **Iterator** | Traverse collections without exposing structure. |
+| 6 | **State** | Object behavior changes with internal state (FSMs, workflows). |
+| 7 | **Chain of Responsibility** | Request through a chain of handlers (middleware, validation). |
+| 8 | **Mediator** | Central coordinator for many components; reduces coupling. |
+| 9 | **Memento** | Save/restore state (undo, snapshots). |
+| 10 | **Visitor** | Add ops to a structure without changing its classes. |
+| 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
+---
+
 ## Java: Packages, Directories & Classes (Simple Guide)
 
 | Term | What it is |
