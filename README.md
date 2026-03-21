@@ -44,7 +44,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
 
-**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), StateDesignPattern (State), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
 ---
 
@@ -169,6 +169,18 @@ In this repo: `PaymentStrategy` is the strategy interface (`pay`). `UPIpaymentSt
 
 **Remember:** *Checkout is fixed — payment “how” is swappable.*
 
+## StateDesignPattern — State Pattern
+
+**Layman:** A **vending machine** acts differently depending on **what situation it’s in**: **no money** vs **has money**. Same three buttons (insert / eject / dispense), but **what happens** depends on **which mode** the machine is in right now. When you insert a coin, the machine **switches mode** to “has money.” When you take the item or eject, it **switches back** to “no money.” The machine **decides** those transitions as events happen — not the customer picking a “strategy” from a menu.
+
+**State pattern** models this as a **context** (`VendingMachineMain`) that holds a **`currentState`** reference. All states implement the same interface (`VendingMachin`: `insertMoney`, `ejectMoney`, `pushButton`). The context **delegates** every action to `currentState`. Each concrete state (`NoMoneyState`, `HasMoneyState`) implements those methods for **its** situation and, when rules say so, calls **`machine.setState(...)`** to move to another state (reusing the **same** state object instances stored on the context — `getNoMoneyState()` / `getHasMoneyState()`).
+
+In this repo: `Main` only talks to `VendingMachineMain`. The machine starts in `NoMoneyState`. `insertMoney` prints and transitions to `HasMoneyState`. From there, `ejectMoney` or `pushButton` prints and transitions back to `NoMoneyState`. No giant `if (hasMoney)` in the context — behavior lives in the **state classes**.
+
+**In short:** State = **object’s mode** drives behavior; **context delegates**; states **transition** the context via `setState` — **who I am right now**, not “client picks an algorithm.”
+
+**Remember:** *Same buttons, different rules per mode — the machine updates its own mode.*
+
 ## Comparison: Strategy vs State
 
 | | **Strategy** | **State** |
@@ -176,7 +188,7 @@ In this repo: `PaymentStrategy` is the strategy interface (`pay`). `UPIpaymentSt
 | **Who chooses** | The **client** (or caller) usually **injects** or **sets** which strategy to use — explicit choice of **how** to behave. | The **object** often **transitions** its own internal state; behavior follows **who it is right now** (e.g. draft → published). |
 | **Focus** | **How to do a task** — interchangeable algorithms for the **same operation** (e.g. pay via UPI vs card). | **Who I am right now** — the object’s **mode** or **phase** drives which behavior runs (like a traffic light: red vs green). |
 | **Typical mental model** | “Pick a tool for this job.” | “I’m in state X, so I act like X until I transition.” |
-| **In this repo** | `Main` calls `setPaymentStrategy(new UPIpaymentStrategy())` then later `new CCPaymentStrategy()` — **you** switch **how** checkout pays. | *(No State example in this repo — often used for workflows, game AI, document lifecycle.)* |
+| **In this repo** | `Main` calls `setPaymentStrategy(new UPIpaymentStrategy())` then later `new CCPaymentStrategy()` — **you** switch **how** checkout pays. | `VendingMachineMain` holds `currentState`; `NoMoneyState` / `HasMoneyState` call `setState(...)` after actions — the **machine’s mode** changes as you use it. |
 
 **One line:** **Strategy** = **you** choose **how** to do something. **State** = the object’s **current identity/mode** decides behavior until it **changes itself**.
 
