@@ -1,5 +1,7 @@
 # DesignPatterns
 
+**Reading tip:** Each pattern below has a **Layman** block — plain English and a simple picture so you can **understand and remember** without jargon first. Technical details stay right after when you need them.
+
 ## Design Patterns — List by Priority (SDE2)
 
 All major design patterns, ordered by how often they matter in SDE2 work (codebases, reviews, system design, interviews).
@@ -42,11 +44,13 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
 
-**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
 ---
 
 ## Java: Packages, Directories & Classes (Simple Guide)
+
+**Layman:** A **class** is the recipe; the **folder on disk** is where the file lives; the **package** is the label on the box — and the label must match the shelf (folder path) so Java can find it.
 
 | Term | What it is |
 |------|------------|
@@ -58,11 +62,17 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 
 ## NotificationSystem — Factory Pattern
 
+**Layman:** You don’t walk into the kitchen and grab ingredients yourself. You tell the **counter** “I want email” or “I want SMS,” and **they** hand you the right thing. You only know “notification”; you don’t care which exact class was made behind the counter.
+
 **Factory pattern** lets one place (the factory) create the right object based on a type. The client uses `new NotificationFactory()` and then `createNotification("EMAIL")` — it never uses `new EmailNotification()` or `new SMSNotification()`; the factory does that. Adding a new channel means one new class and one branch in the factory.
 
 **In short:** You create the factory; the factory creates whatever concrete object it wants (based on what you ask for, e.g. `"EMAIL"`). You never instantiate `EmailNotification` or `SMSNotification` yourself — the factory decides which class to create and returns it. That’s the Factory pattern.
 
+**Remember:** *One order window — they pick the product for you.*
+
 ## ThemeFactory — Abstract Factory Pattern
+
+**Layman:** Instead of ordering **one** item, you order a **meal deal**: everything matches — Mac look **or** Windows look (button + checkbox together). Swap the **whole meal** by swapping which factory you use; you don’t mix Mac button with Windows checkbox.
 
 **Abstract Factory** provides an interface for creating families of related objects (e.g. a whole UI theme) without specifying their concrete classes. Instead of one factory that creates one type of object (like Factory), you have one factory *per theme* that creates *all* the related widgets for that theme. The client code depends only on the abstract factory and product interfaces, so you can swap entire families (Mac vs Windows) without changing the client.
 
@@ -70,7 +80,11 @@ You’ll see both themes: Mac-style and Windows-style button + checkbox, with th
 
 **In short:** Abstract Factory gives you a “theme factory” that produces a whole family of related objects (e.g. button + checkbox). You pass one factory (Mac or Windows); the client stays the same and gets a consistent look. Adding a new theme = new factory + new product classes; the `Application` code stays untouched.
 
+**Remember:** *One factory = one full matching set — not random mix-and-match.*
+
 ## DatabaseConnection — Singleton Pattern
+
+**Layman:** There is **only one** shared “thing” for the whole app — like **one** office coffee machine or **one** building key everyone uses. Nobody makes a second copy; everyone asks for **the same** instance (e.g. `getInstance()`).
 
 **Singleton** ensures a class has only one instance and provides a global point of access to it. Useful for shared resources like a database connection, config, or thread pool — you want exactly one instance reused everywhere.
 
@@ -95,10 +109,28 @@ You’ll see one “Database Connection Created” and “Are both connections t
 
 **In short:** Singleton = one instance, private constructor, `getInstance()` for access. We use double-checked locking for thread-safe lazy creation and `volatile` so that instance is safely visible and fully initialized when other threads read it.
 
+**Remember:** *Only one object — everyone shares it.*
+
+## BuilderDesignPattern — Builder Pattern
+
+**Layman:** Building a pizza (or any object with many options) is like filling out an **order form**: you **start** with what you must pick (here: **crust** and **sauce**), then **optionally** add lines for topping, extra cheese, gluten-free — only what you care about. When you’re done, you say **“build it”** (`build()`) and you get **one finished `Pizza`**. No giant “remember argument 3 vs 4” constructor every time.
+
+**Builder pattern** separates **step-by-step construction** from the **final object**. `pizzaBuilder` holds the choices; each `set…` method adds a piece and returns `this` so you can **chain** calls. `build()` creates the immutable `Pizza` with all fields set. Skip any optional step if you don’t need it (see `plainorder` in `Main` — only crust + sauce, then `build()`).
+
+In this repo: `Pizza` is the product (all `final` fields). `Pizza.pizzaBuilder` is the builder — crust/sauce fixed at start; topping and flags are optional setters; `build()` returns `new Pizza(...)`.
+
+**In short:** Builder = **fluent, readable assembly** of a complex object; **required stuff** up front, **optional** via chained setters, **one** `build()` at the end.
+
+**Remember:** *Order form → tick boxes → hand in → get the meal.*
+
 ## ObserverDesignPattern — Observer Pattern
+
+**Layman:** A **YouTube channel** doesn’t call each fan by name. People hit **Subscribe**; the channel keeps a **list**. When something happens (“new video!”), the channel **broadcasts** one message and **everyone on the list** gets it. Fans don’t poll the channel every minute — the channel **pushes** updates.
 
 **Observer pattern** defines a one-to-many dependency: when the subject (e.g. a YouTube channel) changes state, all registered observers (subscribers) are notified automatically. The subject holds a list of observers and calls a notification method on each when something happens; observers implement a common interface (e.g. `notified(message)`). The subject does not need to know the concrete types of observers — only that they implement the `Observer` interface.
 
 In this repo, `YoutubeChannel` implements `Subject` (register, remove, notify); `Subscriber` implements `Observer` (notified). The client registers subscribers with the channel and calls `notifyObservers("New video uploaded!")`; each subscriber receives the message. Adding a new kind of observer is just a new class implementing `Observer` and registering with the subject.
 
 **In short:** One subject, many observers. Subject maintains a list of observers and notifies them when state changes. Observers implement a single interface (e.g. `notified(message)`). Keeps the subject decoupled from who is listening — event-driven and pub/sub style.
+
+**Remember:** *Subscribe once — get told when something changes.*

@@ -22,8 +22,8 @@ public class Pizza {
     }
 
     public static class pizzaBuilder{
-        private String crust;
-        private String sauce;
+        private final String crust;
+        private final String sauce;
         private String topping;
         private boolean extraCheese;
         private boolean glutenFree;
@@ -31,16 +31,6 @@ public class Pizza {
         public pizzaBuilder(String crust, String sauce) {
             this.crust = crust;
             this.sauce = sauce;
-        }
-
-        public pizzaBuilder setCrust(String crust) {
-            this.crust = crust;
-            return this;
-        }
-
-        public pizzaBuilder setSauce(String sauce) {
-            this.sauce = sauce;
-            return this;
         }
 
         public pizzaBuilder setTopping(String topping) {
