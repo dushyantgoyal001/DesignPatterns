@@ -44,7 +44,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
 
-**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
 ---
 
@@ -156,6 +156,29 @@ In this repo: `TravelApp` builds `LegacyWeatherService`, wraps it in `WeatherAda
 | **In this repo** | `WeatherAdapter` implements `WeatherTarget`; client never calls `fetchWeatherData()` directly. | `MilkDecorator` / `SugarDecorator` still **are** `Coffee`; they extend description and cost. |
 
 **One line:** **Adapter** = new **face** for an old thing so callers don’t have to change *their* contract. **Decorator** = same **face**, **richer** behavior behind it.
+
+## StrategyPattern — Strategy Pattern
+
+**Layman:** At checkout, the **cart** always does “take payment,” but **you** pick **how**: pay with **UPI** or **credit card**. The cart doesn’t need a giant `if (UPI) … else if (card) …`. You **plug in** the payment style you want; same button (“checkout”), different **method** behind it. It’s about **how to do** one job (pay), not about the cart “becoming a different person.”
+
+**Strategy pattern** defines a family of algorithms (e.g. payment methods), encapsulates each one, and makes them **interchangeable**. The **context** (`ShoppingCart`) holds a `PaymentStrategy` reference and delegates `checkout` to `paymentStrategy.pay(amount)`. The **client** (`Main`) chooses which concrete strategy to inject via `setPaymentStrategy` — swap at runtime without changing `ShoppingCart`.
+
+In this repo: `PaymentStrategy` is the strategy interface (`pay`). `UPIpaymentStrategy` and `CCPaymentStrategy` are concrete strategies (different rules, e.g. card adds a fee in the demo). `ShoppingCart` stays stable; new payment type = new class implementing `PaymentStrategy`.
+
+**In short:** Strategy = **pluggable algorithms**; context delegates; **client** (or config) **picks which strategy** — **how** to perform a task, **open/closed** for new behaviors.
+
+**Remember:** *Checkout is fixed — payment “how” is swappable.*
+
+## Comparison: Strategy vs State
+
+| | **Strategy** | **State** |
+|---|--------------|-----------|
+| **Who chooses** | The **client** (or caller) usually **injects** or **sets** which strategy to use — explicit choice of **how** to behave. | The **object** often **transitions** its own internal state; behavior follows **who it is right now** (e.g. draft → published). |
+| **Focus** | **How to do a task** — interchangeable algorithms for the **same operation** (e.g. pay via UPI vs card). | **Who I am right now** — the object’s **mode** or **phase** drives which behavior runs (like a traffic light: red vs green). |
+| **Typical mental model** | “Pick a tool for this job.” | “I’m in state X, so I act like X until I transition.” |
+| **In this repo** | `Main` calls `setPaymentStrategy(new UPIpaymentStrategy())` then later `new CCPaymentStrategy()` — **you** switch **how** checkout pays. | *(No State example in this repo — often used for workflows, game AI, document lifecycle.)* |
+
+**One line:** **Strategy** = **you** choose **how** to do something. **State** = the object’s **current identity/mode** decides behavior until it **changes itself**.
 
 ## ObserverDesignPattern — Observer Pattern
 
