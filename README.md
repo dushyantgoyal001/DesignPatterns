@@ -44,7 +44,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
 
-**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), DecoratorDesignPattern (Decorator), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
 ---
 
@@ -122,6 +122,18 @@ In this repo: `Pizza` is the product (all `final` fields). `Pizza.pizzaBuilder` 
 **In short:** Builder = **fluent, readable assembly** of a complex object; **required stuff** up front, **optional** via chained setters, **one** `build()` at the end.
 
 **Remember:** *Order form → tick boxes → hand in → get the meal.*
+
+## DecoratorDesignPattern — Decorator Pattern
+
+**Layman:** You start with **plain coffee**. Want milk? You don’t rewrite the coffee recipe — you **wrap** the cup: “this is still coffee, but now with milk.” Want sugar too? **Wrap again** around what you already had. Each **layer** adds a name and a price. Like **nested sleeves** on a drink: same drink inside, extras on the outside — and you can mix **order** (milk then sugar, or the other way) by how you wrap.
+
+**Decorator pattern** adds responsibilities to an object **dynamically** by wrapping it in objects that share the same interface (`Coffee`). Each decorator holds a reference to the **inner** `Coffee`, delegates to it, and **extends** `getDescription()` / `getCost()` (or other behavior). The client always talks to `Coffee`; it doesn’t need to know how many decorators are stacked.
+
+In this repo: `SimpleCoffe` is the **component**. `CoffeeDecorator` is the **base wrapper** (implements `Coffee`, forwards to `decoratedCoffee`). `MilkDecorator` and `SugarDecorator` add “, Milk” / “, Sugar” and bump the cost. `Main` builds `new SimpleCoffe()` → `new MilkDecorator(coffee)` → `new SugarDecorator(coffee)` — **composition at runtime**, no explosion of subclasses like `CoffeeWithMilkAndSugar`.
+
+**In short:** Decorator = **wrap** the same interface, **add** behavior outward; stack wrappers; **open for extension**, **closed** for editing the core class.
+
+**Remember:** *Russian dolls / coffee add-ons — wrap, don’t rewrite the base.*
 
 ## ObserverDesignPattern — Observer Pattern
 
