@@ -74,47 +74,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 
 **In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), StateDesignPattern (State), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
-### Layman cheat sheet — all patterns (short & easy)
-
-One line each — quick memory hook. *(Patterns we implement in code also have longer sections below.)*
-
-**Creational**
-
-| Pattern | Layman (plain English) |
-|---------|-------------------------|
-| **Singleton** | **One** shared thing for the whole app — like one office coffee machine everyone uses. |
-| **Factory / Factory Method** | You order at the **counter** (“email” / “SMS”); **they** make the right item — you don’t grab parts from the back yourself. |
-| **Builder** | **Order form**: pick required + optional fields step by step, then press **“build”** — no giant constructor with 10 arguments. |
-| **Abstract Factory** | **Meal deal**: one “theme” — button + checkbox (or whole UI) **all match**; swap the whole set at once. |
-| **Prototype** | **Copy-paste** a template: clone an existing object instead of rebuilding from scratch (drafts, presets). |
-
-**Structural**
-
-| Pattern | Layman (plain English) |
-|---------|-------------------------|
-| **Adapter** | **Travel plug**: your app wants shape A; old code speaks shape B — a **translator** in the middle makes them fit. |
-| **Decorator** | **Layers on a drink**: still “coffee,” but wrap milk, then sugar — same **kind** of thing, **extra** on the outside. |
-| **Facade** | **One simple remote** for a messy home theater — hides ten boxes behind one “Watch movie” button. |
-| **Proxy** | **Stand-in**: someone at the door checks ID or delays work until needed, then talks to the **real** heavy object. |
-| **Composite** | **Folders and files** treated the same: “draw this” works for one icon or a whole tree. |
-| **Bridge** | **Two knobs**: “what it is” vs “how it works” — e.g. remote **abstraction** plugs into different TV **implementations** without explosion of subclasses. |
-| **Flyweight** | **Share the heavy stuff**: thousands of map pins **reuse** one shared image in memory instead of each owning a copy. |
-
-**Behavioral**
-
-| Pattern | Layman (plain English) |
-|---------|-------------------------|
-| **Strategy** | **You choose** at checkout: UPI vs card — same “pay” action, **different how** (algorithm plugged in). |
-| **Observer** | **Subscribe** to a channel: when news happens, **everyone on the list** gets pinged — no polling. |
-| **Template Method** | **Recipe skeleton** is fixed; one or two steps are **“your version here”** (hooks in a pipeline). |
-| **Command** | **Order slip as an object** — can queue it, log it, **undo** it; button only says “do this command.” |
-| **Iterator** | **“Next” in line** through a collection without knowing if it’s array, list, or tree under the hood. |
-| **State** | **Mode machine**: same buttons (insert / eject), **different rules** depending on **where you are** (has money vs not). |
-| **Chain of Responsibility** | **Pass the ticket** down the line: first support → supervisor → manager until someone **can** handle it. |
-| **Mediator** | **Group chat host**: components don’t all talk to each other; they go through **one coordinator** to stay sane. |
-| **Memento** | **Save game**: snapshot of “how things were” so you can **restore** or undo without exposing inner guts. |
-| **Visitor** | **Tour guide** with a checklist: walk every room (node) and run **one new operation** without editing each room’s class. |
-| **Interpreter** | **Rule book** for a tiny language: read symbols and evaluate step by step (simple expressions / DSL). |
+> **Quick ref:** One-line memory hooks for every pattern are in **Design patterns — one line to remember** at the top of this file.
 
 ---
 
