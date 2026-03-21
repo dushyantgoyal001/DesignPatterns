@@ -44,7 +44,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 | 10 | **Visitor** | Add ops to a structure without changing its classes. |
 | 11 | **Interpreter** | Interpret a language/DSL (less common day-to-day). |
 
-**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), DecoratorDesignPattern (Decorator), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
+**In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
 ---
 
@@ -134,6 +134,28 @@ In this repo: `SimpleCoffe` is the **component**. `CoffeeDecorator` is the **bas
 **In short:** Decorator = **wrap** the same interface, **add** behavior outward; stack wrappers; **open for extension**, **closed** for editing the core class.
 
 **Remember:** *Russian dolls / coffee add-ons — wrap, don’t rewrite the base.*
+
+## AdapterDesignPattern — Adapter Pattern
+
+**Layman:** Your **new travel app** only speaks **JSON** (“give me weather like this”). The **old weather service** only answers in **XML** — different “plug shape.” You don’t throw away the old box. You use a **travel adapter**: same old device inside, but the **socket your app uses** now fits. The app asks for JSON; the adapter calls the legacy code, **translates** XML → JSON, and returns what the app expects.
+
+**Adapter pattern** lets classes with **incompatible interfaces** work together. You define what the **client** needs (`WeatherTarget` with `getWeatherDataInJson()`). The **adaptee** is the existing class (`LegacyWeatherService` with `fetchWeatherData()` returning XML). The **adapter** (`WeatherAdapter`) implements `WeatherTarget`, holds a `LegacyWeatherService`, calls `fetchWeatherData()`, converts (here `convertXmlToJson`), and returns JSON. The client depends only on `WeatherTarget`, not on XML details.
+
+In this repo: `TravelApp` builds `LegacyWeatherService`, wraps it in `WeatherAdapter`, and uses `WeatherTarget` — the app stays on the **new** contract while the **old** service stays untouched.
+
+**In short:** Adapter = **translate / wrap** an existing component so it **fits** the interface your code (or API) already expects — **integration without rewriting** the legacy class.
+
+**Remember:** *Power plug adapter — old device, new socket; translator in the middle.*
+
+## Comparison: Adapter vs Decorator
+
+| | **Adapter** | **Decorator** |
+|---|-------------|---------------|
+| **Interface** | **Changes** the surface so something **incompatible** can work with what the client expects (e.g. XML service → JSON-shaped API). | **Keeps** the **same** interface as the object inside; you still talk to `Coffee`, but with **extra** behavior layered on. |
+| **Goal** | **Make it compatible** — “translate the plug.” | **Add responsibilities** — “same drink, more toppings.” |
+| **In this repo** | `WeatherAdapter` implements `WeatherTarget`; client never calls `fetchWeatherData()` directly. | `MilkDecorator` / `SugarDecorator` still **are** `Coffee`; they extend description and cost. |
+
+**One line:** **Adapter** = new **face** for an old thing so callers don’t have to change *their* contract. **Decorator** = same **face**, **richer** behavior behind it.
 
 ## ObserverDesignPattern — Observer Pattern
 
