@@ -1,32 +1,19 @@
 # DesignPatterns
 
-## Design patterns — one line to remember
+## Design patterns — triggers, classic examples & core benefits
 
-| Group | Pattern | Remember in one line |
-|-------|---------|----------------------|
-| **Creational** | Singleton | Only **one** shared object for the whole app (one key, one DB pool). |
-| **Creational** | Factory | Tell the **counter** what you want; **they** build the right thing — you don’t `new` every variant yourself. |
-| **Creational** | Builder | **Order form**: step-by-step options, then **build()** — no monster constructor. |
-| **Creational** | Abstract Factory | **Meal deal** — one theme; a **matching set** of objects (swap the whole family). |
-| **Creational** | Prototype | **Clone** a template instead of assembling from zero every time. |
-| **Structural** | Adapter | **Travel plug** — translate old interface into what your app expects. |
-| **Structural** | Decorator | **Wrap** the same thing; each layer **adds** behavior (milk on coffee). |
-| **Structural** | Facade | **One simple button** hides a messy subsystem behind it. |
-| **Structural** | Proxy | **Stand-in** in front of the real object (lazy load, guard, log). |
-| **Structural** | Composite | **Tree**: treat **one leaf** and a **whole branch** the same way. |
-| **Structural** | Bridge | Split **what** from **how** — two dimensions vary without subclass explosion. |
-| **Structural** | Flyweight | **Share** the heavy repeated data; many objects, **few** copies in memory. |
-| **Behavioral** | Strategy | **You plug in** *how* to do a job (UPI vs card) — same action, swap algorithm. |
-| **Behavioral** | Observer | **Subscribe** — one event, **many listeners** get notified automatically. |
-| **Behavioral** | Template Method | **Fixed recipe**, **variable steps** — framework calls your hooks. |
-| **Behavioral** | Command | **Action as an object** — queue, log, **undo**; decouple button from work. |
-| **Behavioral** | Iterator | Walk a collection with **next** without knowing its internal shape. |
-| **Behavioral** | State | **Mode** decides behavior; object **transitions** itself (vending machine). |
-| **Behavioral** | Chain of Responsibility | **Pass the request** along a line until someone **handles** it. |
-| **Behavioral** | Mediator | **Hub** talks for everyone — components don’t all ping each other. |
-| **Behavioral** | Memento | **Save / restore** a snapshot without breaking encapsulation (undo). |
-| **Behavioral** | Visitor | **New operation** over a structure **without** changing every node class. |
-| **Behavioral** | Interpreter | **Rules** for a small language — parse and evaluate step by step. |
+Focus patterns we use in this repo (plus the usual LLD interview set). **The “trigger”** is the phrase to listen for when picking a pattern.
+
+| Design pattern | The “trigger” (listen for this) | Classic LLD example | Core benefit |
+|----------------|----------------------------------|---------------------|--------------|
+| **Strategy** | *Multiple ways to do the same task.* | Payments (UPI, card); routing (fastest, shortest). | Swaps algorithms at runtime; kills massive if/else blocks. |
+| **Factory** | *Create different objects based on input.* | Notification service (email vs. SMS); parking lot (car vs. truck). | Centralizes the `new` keyword; hides complex initialization. |
+| **Observer** | *Notify components when something happens.* | E-commerce (back-in-stock alerts); social feed. | Decouples the trigger (publisher) from the reactions (subscribers). |
+| **State** | *Behavior changes based on its current phase.* | Vending machine; order lifecycle (pending → shipped). | Isolates lifecycle rules; helps prevent invalid transitions. |
+| **Decorator** | *Mix and match features dynamically.* | Food add-ons (pizza toppings); text formatting. | Avoids “class explosion” (e.g. dozens of subclass combinations). |
+| **Adapter** | *Integrate with a third-party system.* | External APIs (Stripe for payments, FedEx for shipping). | Acts as a translator; keeps external code from bleeding into core logic. |
+| **Builder** | *Object needs many pieces / arguments to be created (often 5+).* | Complex configurations (HTTP client, search query). | Step-by-step creation (fluent interface); fewer constructor / null mistakes. |
+| **Singleton** | *Needs a single, shared global resource.* | Database connection pool; local logger. | Guarantees one instance. **Note:** Often considered an anti-pattern in **distributed** systems (multiple nodes each “think” they own the singleton unless you use shared infrastructure). |
 
 **Reading tip:** Each pattern we implement in this repo also has a **Layman** block in its section — plain English first, then technical detail. Priority tables and full write-ups are below.
 
@@ -101,7 +88,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 
 **In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), StateDesignPattern (State), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
-> **Quick ref:** One-line memory hooks for every pattern are in **Design patterns — one line to remember** at the top of this file.
+> **Quick ref:** Triggers, classic LLD examples, and core benefits for the main patterns are in **Design patterns — triggers, classic examples & core benefits** at the top of this file.
 
 ---
 
