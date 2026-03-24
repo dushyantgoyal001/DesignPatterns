@@ -30,6 +30,33 @@
 
 **Reading tip:** Each pattern we implement in this repo also has a **Layman** block in its section — plain English first, then technical detail. Priority tables and full write-ups are below.
 
+## When to apply — category & memory hint
+
+| Category | Pattern | When to apply | Memory hint |
+|----------|---------|---------------|-------------|
+| Creational | Factory | When object creation logic should be hidden and the client should not know the concrete class | Creation problems |
+| Creational | Abstract Factory | When creating families of related objects without specifying their concrete classes | Creation problems |
+| Creational | Builder | When constructing a complex object step-by-step with many optional parameters | Creation problems |
+| Creational | Singleton | When exactly one instance of a class must exist and be globally accessible | Creation problems |
+| Creational | Prototype | When creating new objects by cloning an existing object is more efficient | Creation problems |
+| Structural | Adapter | When two incompatible interfaces must work together | Structure problems |
+| Structural | Bridge | When abstraction and implementation should vary independently | Structure problems |
+| Structural | Composite | When individual objects and groups should be treated uniformly (tree structure) | Structure problems |
+| Structural | Decorator | When behavior needs to be added dynamically without modifying the class | Structure problems |
+| Structural | Facade | When a simplified interface is needed over a complex subsystem | Structure problems |
+| Structural | Proxy | When an intermediary object controls access to another object | Structure problems |
+| Behavioral | Strategy | When multiple algorithms exist and the algorithm should be chosen at runtime | Communication / behavior problems |
+| Behavioral | Observer | When one object change should notify multiple dependent objects | Communication / behavior problems |
+| Behavioral | Command | When requests should be encapsulated as objects to allow parameterization and queuing | Communication / behavior problems |
+| Behavioral | Mediator | When interactions between many objects should be centralized | Communication / behavior problems |
+| Behavioral | Template Method | When defining a skeleton of an algorithm but allowing subclasses to override steps | Communication / behavior problems |
+| Behavioral | Chain of Responsibility | When multiple handlers can process a request and handler is decided at runtime | Communication / behavior problems |
+| Behavioral | State | When an object changes behavior based on its internal state | Communication / behavior problems |
+| Behavioral | Iterator | When traversing elements of a collection without exposing internal structure | Communication / behavior problems |
+| Behavioral | Visitor | When adding new operations to existing object structures without modifying them | Communication / behavior problems |
+| Behavioral | Memento | When capturing and restoring an object's state | Communication / behavior problems |
+| Behavioral | Interpreter | When defining and evaluating grammar or language expressions | Communication / behavior problems |
+
 ## Design Patterns — List by Priority (SDE2)
 
 All major design patterns, ordered by how often they matter in SDE2 work (codebases, reviews, system design, interviews).
