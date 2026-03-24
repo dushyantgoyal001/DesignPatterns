@@ -1,5 +1,15 @@
 # DesignPatterns
 
+## SOLID — quick reference
+
+| Principle | Goal | What to say in interview | Typical trigger signal |
+|-----------|------|--------------------------|------------------------|
+| **S** — Single responsibility | One class = one reason to change | Separate business logic from persistence / validation / formatting | Class doing multiple unrelated tasks |
+| **O** — Open closed | Open for extension, closed for modification | Add behavior via interface / polymorphism instead of editing the class | New feature requires editing old class |
+| **L** — Liskov substitution | Child must behave like parent | Subclass should not break expectations | Override changes behavior contract |
+| **I** — Interface segregation | Prefer small interfaces | Clients should not depend on unused methods | Fat interfaces |
+| **D** — Dependency inversion | Depend on abstraction, not concrete | Use an interface instead of a `new` keyword dependency | Tight coupling between modules |
+
 ## Design patterns — triggers, classic examples & core benefits
 
 Focus patterns we use in this repo (plus the usual LLD interview set). **The “trigger”** is the phrase to listen for when picking a pattern.
@@ -88,7 +98,7 @@ All major design patterns, ordered by how often they matter in SDE2 work (codeba
 
 **In this repo:** NotificationSystem (Factory), ThemeFactory (Abstract Factory), DatabaseConnection (Singleton), BuilderDesignPattern (Builder), AdapterDesignPattern (Adapter), DecoratorDesignPattern (Decorator), StrategyPattern (Strategy), StateDesignPattern (State), ObserverDesignPattern (Observer), Parkinglot (OOP/domain modeling).
 
-> **Quick ref:** Triggers, classic LLD examples, and core benefits for the main patterns are in **Design patterns — triggers, classic examples & core benefits** at the top of this file.
+> **Quick ref:** **SOLID** is in **SOLID — quick reference** at the top. Triggers, classic LLD examples, and core benefits for the main patterns are in **Design patterns — triggers, classic examples & core benefits**.
 
 ---
 
@@ -247,3 +257,71 @@ In this repo, `YoutubeChannel` implements `Subject` (register, remove, notify); 
 **In short:** One subject, many observers. Subject maintains a list of observers and notifies them when state changes. Observers implement a single interface (e.g. `notified(message)`). Keeps the subject decoupled from who is listening — event-driven and pub/sub style.
 
 **Remember:** *Subscribe once — get told when something changes.*
+
+---
+
+## Beyond design patterns — SDE-2 LLD depth
+
+This is the material interviewers often expect **alongside** named patterns: concurrency, how your design surfaces as an API, SOLID habits, and how you model state in code and storage.
+
+### 1. Concurrency and thread safety
+
+This is where SDE-2 candidates are **heavily** tested. You need to show you can handle **multiple users** modifying the same data safely.
+
+**synchronized vs locks:** Use `synchronized` for **simple**, block-level locking. Use **`ReentrantLock`** when you need **advanced** behavior: **fairness** (longest-waiting thread gets the lock next), **interrupting** a waiting thread, or **trying** to acquire a lock without blocking forever (**`tryLock()`**).
+
+**Concurrent collections:** Avoid a plain **`HashMap`** in a multi-threaded LLD answer. Prefer **`ConcurrentHashMap`** for high-throughput reads and writes. Use **`CopyOnWriteArrayList`** when **reads vastly outnumber writes** (writes copy the backing array; great for listener lists, costly if writes are frequent).
+
+**`volatile` keyword:** Use when **several threads read** a variable and **typically one writer** updates it. It guarantees readers see the **latest value from main memory**, not a stale copy in a CPU cache. (It is **not** a substitute for atomic “read-modify-write” on its own.)
+
+**Thread pools (`ExecutorService`):** Avoid **`new Thread()`** for every task in production-style designs. Use a **thread pool** to bound resource use, reuse workers, and handle shutdown cleanly.
+
+**What to say in the interview:**
+
+> “To prevent race conditions when two users try to book the last movie ticket simultaneously, I’ll wrap the booking critical section in a **`ReentrantLock`**. I’m using **`tryLock(timeout)`** so the thread doesn’t hang indefinitely if the database is slow.”
+
+> “I’m storing active sessions in a **`ConcurrentHashMap`** rather than a fully **`synchronized`** map, because it locks at the **bucket** level, which allows much higher read/write concurrency.”
+
+### 2. API design and contracts
+
+LLD is not only internal classes; it is **how** those classes expose behavior to callers, retries, and the outside world.
+
+**Idempotency:** If a client calls your API **more than once** (retries, double-clicks), **system state should change at most once** for that logical operation. Design with **idempotency keys**, deduplication, or natural keys.
+
+**Pagination:** For “get order history” style endpoints, **do not** return an unbounded full list. Accept **`limit` / `offset`** or a **`nextToken`** cursor so the server and client stay predictable at scale.
+
+**Fail-fast and exception handling:** Validate inputs **at the top** of the handler or service method. Prefer **narrow, domain exceptions** (e.g. `InsufficientInventoryException`) over a generic `RuntimeException` everywhere so callers and logs stay meaningful.
+
+**What to say in the interview:**
+
+> “For **`chargeCreditCard`**, I’m including an **`idempotencyKey`** in the request. If a network timeout causes the client to retry, we check that key so we **don’t charge the customer twice**.”
+
+> “I’ll validate **`userId`** and **`cartId`** at the very start of the method. Better to **fail fast** with a custom **`InvalidRequestException`** than let bad data flow deep into business logic.”
+
+### 3. SOLID principles (pragmatic)
+
+You don’t need to recite the acronym verbatim; you **do** need to show the **habits**.
+
+**Single responsibility (SRP):** One class, one reason to change. If you have an **`OrderManager`**, it should **not** also send emails and render PDFs; extract collaborators.
+
+**Open/closed (OCP) and interface segregation:** **Program to interfaces.** Extend behavior by **adding** types (strategies, states, new implementations) rather than editing a growing god-class. Prefer **small interfaces** so `Car` is not forced to implement **`takeOff()`** if only planes need it.
+
+**What to say in the interview:**
+
+> “Instead of hardcoding pricing inside **`ShoppingCart`**, I’ll inject a **`PricingStrategy`** interface. If we add a holiday discount next month, we extend with a new implementation **without** modifying the core cart.”
+
+> “I’m splitting this large **`Vehicle`** API into **`Drivable`** and **`Flyable`** so **`Car`** isn’t forced to implement **`takeOff()`** it will never use.”
+
+### 4. Data models and state management
+
+Interviewers often want to see how your **objects** relate to **persistence** and **invariants**.
+
+**Enums for state:** Use an **enum** for a **fixed** set of lifecycle values (e.g. `OrderState`: `PENDING`, `SHIPPED`, `DELIVERED`, `CANCELLED`). That makes illegal states harder to represent in code.
+
+**Immutability:** Prefer **`final`** fields and controlled construction for value objects (transactions, money snapshots). Immutable aggregates are **easier to reason about** and safe to share across threads **without** locking.
+
+**What to say in the interview:**
+
+> “I’m making **`Transaction`** immutable — **`final`** fields and getters only. Once created, no other class should mutate its history.”
+
+> “For the DB, I’d store an overarching **status enum** and a **`lastModifiedAt`** timestamp — the latter helps debug and audit **state transitions** later.”
