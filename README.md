@@ -325,3 +325,60 @@ Interviewers often want to see how your **objects** relate to **persistence** an
 > “I’m making **`Transaction`** immutable — **`final`** fields and getters only. Once created, no other class should mutate its history.”
 
 > “For the DB, I’d store an overarching **status enum** and a **`lastModifiedAt`** timestamp — the latter helps debug and audit **state transitions** later.”
+
+---
+
+## Interview roadmaps — DSA, LLD, and HLD
+
+Quick reference for how to spend time in each round: from **problem framing** to **implementation** and **follow-ups**.
+
+### 1. DSA interview roadmap (the problem-solver)
+
+**Goal:** Move from ambiguity to an **optimized**, **bug-free** implementation.
+
+| Phase | Time (guide) | What to do |
+|-------|----------------|------------|
+| **Clarification & constraints** | ≈2m | Ask about **input size** (drives whether you need $O(n)$, etc.), **data types** (negatives, duplicates, nulls), and **memory** limits. |
+| **Mental sandbox & examples** | ≈3m | Walk through a **basic** example by hand. Invent a **tricky** edge case early (empty input, sorted vs. unsorted) to stress-test your logic. |
+| **Brute force verbalization** | ≈2m | State the naive approach ($O(n^2)$, $O(2^n)$, …). Acknowledge it’s slow to set a **baseline**. |
+| **Optimization & pattern matching** | ≈5m | Pick structures: **heap** for top-K, **hash map** for $O(1)$ lookup, **two pointers** on sorted arrays, etc. State **trade-offs** (e.g. “frequency map → time $O(n)$, space $O(k)$”). |
+| **Dry run pseudocode** | ≈3m | Walk through logic **before** coding: “I’ll iterate once to build the map, then keep a min-heap of size $K$.” |
+| **Implementation** | ≈15m | Clean, modular code; **clear names**; handle **edge cases** (null, empty) first. |
+| **Verification & complexity** | ≈5m | Trace with your **tricky** example. State **time** and **space** with **Big-O** explicitly. |
+| **Refinement** | (optional) | How it scales; how it changes if input is a **stream** (online algorithms). |
+
+### 2. LLD / machine coding roadmap (the architect)
+
+**Goal:** Show **clean code**, **extensibility**, and solid use of **design patterns**.
+
+| Phase | Time (guide) | What to do |
+|-------|----------------|------------|
+| **Requirement clarification** | ≈5m | Nail **scope**. Split **core** vs **nice-to-haves**. Ask about **concurrency** (many threads?) and **persistence** (in-memory vs DB). |
+| **Class diagram / core entities** | ≈5m | Find the **nouns**; classes, interfaces, enums; **composition over inheritance** where it fits. *Example:* `ParkingLot` has `Floor`; `Floor` has `ParkingSlot`. |
+| **Design patterns & principles** | ≈5m | **Name** patterns you use (Strategy for pricing, Factory for creation, Observer for notifications). Tie to **SOLID**. |
+| **API / interface design** | ≈5m | Public surface: what does **client** or **driver** call? Keep interfaces **lean** (interface segregation). |
+| **Implementation** | ≈20m | **Core logic first**. Use **`ConcurrentHashMap`** or **locks** if concurrency was required. Readable code; sensible **exceptions**. |
+| **Extensibility discussion** | ≈5m | e.g. “New payment type tomorrow = new `PaymentStrategy` implementation **without** changing cart core.” |
+| **Testing** | (mention) | **Happy path**, **boundaries**, **failure** states; unit tests you’d add. |
+
+### 3. HLD interview roadmap (the systems engineer)
+
+**Goal:** Credible **boxes-and-arrows** design with **trade-offs** and **operational** awareness.
+
+| Phase | Time (guide) | What to do |
+|-------|----------------|------------|
+| **Requirements** | ≈5m | Top **3** functional features; **non-functional** — latency, availability; **PACELC** where relevant. |
+| **Capacity & entities** | ≈5m | **Back-of-envelope** math only if it matters; name core **nouns** (users, events, …). |
+| **API & data flow** | ≈5m | REST/gRPC **shape**; **pipeline**: ingest → store → serve (high level). |
+| **High-level design** | ≈15m | **Boxes and arrows:** load balancers, API gateways, services, DBs, caches, **queues**. |
+| **Deep dives** | ≈10m | Scaling, **sharding**, **replication**, **consistency**; **fan-out**; **hot keys**. |
+| **Ops & correctness** | ≈5m | **Idempotency**, **retries**, **observability** (metrics, alerting). |
+
+### Comparison of focus (DSA vs LLD vs HLD)
+
+| Aspect | DSA | LLD | HLD |
+|--------|-----|-----|-----|
+| **Primary metric** | Time / space complexity | Maintainability / extensibility | Scalability / availability |
+| **Key tool** | Algorithms & data structures | Design patterns & SOLID | Distributed systems & middleware |
+| **Common pitfall** | Missing edge cases | Hard-coding logic | Over-engineering too early |
+
